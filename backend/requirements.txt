@@ -1,7 +1,7 @@
 flask==2.0.1
 werkzeug==2.0.2
 flask-cors==3.0.10
+numpy==1.19.2
 tensorflow-cpu==2.6.2
-numpy==1.19.5
 scikit-learn==0.24.2
 gunicorn==20.1.0 
