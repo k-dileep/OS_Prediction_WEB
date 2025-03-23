@@ -1,0 +1,44 @@
+# Python / Flask backend
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+new_env/
+ENV/
+env.bak/
+venv.bak/
+.env
+.venv
+*.log
+local_settings.py
+instance/
+.webassets-cache
+
+# Next.js frontend
+/frontend/node_modules
+/frontend/.next/
+/frontend/out/
+/frontend/build
+/frontend/.vercel
+/frontend/.env*.local
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+/frontend/.pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.sublime-workspace
+
+# OS specific
+.DS_Store
+Thumbs.db 
