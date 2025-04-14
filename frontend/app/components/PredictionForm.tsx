@@ -43,7 +43,8 @@ export default function PredictionForm() {
             } else {
                 setError(data.error || 'Prediction failed');
             }
-        } catch (err) {
+        } catch (_error) {
+            // Ignore the specific error but set a user-friendly message
             setError('Failed to get prediction. Please try again.');
         } finally {
             setLoading(false);
