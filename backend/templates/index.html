@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oxidative Stress Prediction API</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        /* Additional styles specific to this page */
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .result-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .result-content {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .normal-text {
+            color: green;
+            font-weight: bold;
+        }
+        .exposed-text {
+            color: red;
+            font-weight: bold;
+        }
+        .api-section {
+            margin-top: 30px;
+        }
+        .endpoint {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">OS Prediction API</div>
+        <div class="nav">
+            <a href="/">Home</a>
+            <a href="/swagger">API Docs</a>
+            <a href="/health">Health Check</a>
+            <a href="/routes">All Routes</a>
+        </div>
+    </div>
+
+    <h1>Oxidative Stress Prediction</h1>
+    
+    <div class="card">
+        <h2>Test the API</h2>
+        <form id="prediction-form">
+            <div>
+                <label for="radiation">Radiation Level:</label>
+                <input type="number" id="radiation" name="radiation" step="any" required placeholder="Enter radiation level">
+            </div>
+            
+            <div>
+                <label for="fibrinogen">Fibrinogen Level:</label>
+                <input type="number" id="fibrinogen" name="fibrinogen" step="any" required placeholder="Enter fibrinogen level">
+            </div>
+            
+            <button type="submit">Predict</button>
+        </form>
+        
+        <div id="result">
+            <div class="result-header">Prediction Result:</div>
+            <div class="result-content" id="result-content"></div>
+        </div>
+    </div>
+    
+    <div class="card api-section">
+        <h2>API Documentation</h2>
+        <p>This API provides endpoints for predicting oxidative stress based on radiation and fibrinogen inputs.</p>
+        
+        <h3>Endpoints</h3>
+        
+        <div>
+            <h4>POST /predict</h4>
+            <div class="endpoint">POST /predict</div>
+            <p>Predict oxidative stress based on radiation and fibrinogen levels.</p>
+            
+            <h5>Request Body:</h5>
+            <pre class="endpoint">{
+  "radiation": 1.2,
+  "fibrinogen": 3.5
+}</pre>
+            
+            <h5>Response:</h5>
+            <pre class="endpoint">{
+  "success": true,
+  "predicted_sod": 3.8,
+  "status": "Exposed to Oxidative Stress",
+  "threshold": 3.5
+}</pre>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Oxidative Stress Prediction API &copy; 2024</p>
+    </div>
+
+    <script>
+        document.getElementById('prediction-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const radiation = document.getElementById('radiation').value;
+            const fibrinogen = document.getElementById('fibrinogen').value;
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        radiation: parseFloat(radiation),
+                        fibrinogen: parseFloat(fibrinogen)
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    let resultHtml = `<p><strong>SOD Activity:</strong> ${data.predicted_sod.toFixed(2)}</p>`;
+                    
+                    if (data.status.includes('Exposed')) {
+                        resultHtml += `<p><strong>Status:</strong> <span class="exposed-text">${data.status}</span></p>`;
+                    } else {
+                        resultHtml += `<p><strong>Status:</strong> <span class="normal-text">${data.status}</span></p>`;
+                    }
+                    
+                    resultHtml += `<p><strong>Threshold:</strong> ${data.threshold}</p>`;
+                    
+                    document.getElementById('result-content').innerHTML = resultHtml;
+                    document.getElementById('result').style.display = 'block';
+                } else {
+                    document.getElementById('result-content').innerHTML = `<p>Error: ${data.error || 'Prediction failed'}</p>`;
+                    document.getElementById('result').style.display = 'block';
+                }
+            } catch (err) {
+                document.getElementById('result-content').innerHTML = '<p>Failed to get prediction. Please try again.</p>';
+                document.getElementById('result').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html> 

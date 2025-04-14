@@ -42,7 +42,7 @@ OS_Prediction_WEB/
 
 4. Run the Flask backend:
    ```
-   python app.py
+   python app.py or py -3.11 app.py
    ```
    
    The backend will start on `http://localhost:5000`
@@ -64,6 +64,24 @@ OS_Prediction_WEB/
    ```
    
    The frontend will start on `http://localhost:3000`
+
+5. To connect to a deployed backend instead of localhost, set the API URL using one of these methods:
+
+   **Method 1: Create a `.env.local` file in the frontend directory:**
+   ```
+   NEXT_PUBLIC_API_URL=https://your-deployed-backend-url.com
+   ```
+
+   **Method 2: Set environment variable during deployment:**
+   
+   On platforms like Vercel or Netlify, set the `NEXT_PUBLIC_API_URL` environment variable in your deployment settings.
+
+   **Method 3: Edit the code directly:**
+   
+   In `app/components/PredictionForm.tsx`, replace the localhost URL with your deployed backend URL:
+   ```javascript
+   setApiUrl(process.env.NEXT_PUBLIC_API_URL || 'https://your-deployed-backend-url.com');
+   ```
 
 ## API Endpoints
 
@@ -121,4 +139,4 @@ For production deployment:
 
 ## License
 
-This project is proprietary and confidential. 
+This project is proprietary and confidential.
